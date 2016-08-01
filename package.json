@@ -1,0 +1,40 @@
+{
+  "name": "hamburger-split-view",
+  "version": "0.0.1",
+  "description": "Practice building a hamburger split view menu using React.js",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fargrim/hamburger-split-view.git"
+  },
+  "author": "Kyle Blake <kyle.blake84@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/Fargrim/hamburger-splitview/issues"
+  },
+  "scripts": {
+    "prod": "webpack -p",
+    "start": "webpack-dev-server"
+  },
+  "homepage": "https://github.com/Fargrim/hamburger-split-view#readme",
+  "devDependencies": {
+    "babel-core": "^6.11.4",
+    "babel-eslint": "^6.1.2",
+    "babel-loader": "^6.2.4",
+    "babel-preset-react": "^6.11.1",
+    "css-loader": "^0.23.1",
+    "eslint": "^3.1.1",
+    "eslint-plugin-react": "^5.2.2",
+    "html-webpack-plugin": "^2.22.0",
+    "style-loader": "^0.13.1",
+    "typescript": "^2.1.0-dev.20160727",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "dependencies": {
+    "axios": "^0.13.1",
+    "react": "^15.2.1",
+    "react-addons-css-transition-group": "^15.2.1",
+    "react-dom": "^15.2.1",
+    "react-router": "^2.0.0-rc5"
+  }
+}
