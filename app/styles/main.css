@@ -1,0 +1,20 @@
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+span{
+  text-align: center;
+}
+.menu-sidebar .menu_closed{
+  padding: 0;
+}
+
+.menu-item-text{
+  display: none;
+}
+
+.menu-open > li > .menu-item-text{
+  display: inline;
+}
