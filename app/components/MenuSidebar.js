@@ -4,20 +4,18 @@ class MenuSidebar extends Component {
   render() {
     return (
       <div className="menu-sidebar">
-        <ul>
-          {this.props.content.map(
-            menuItem => {
-              return (
-                <li key={menuItem.title}>
-                  <button> 
-                    <img className="menu-item-icon" src={menuItem.image} />
-                  </button>
-                  <h3 className="menu-item-text">{menuItem.title}</h3>
-                </li>
-              );
-            }
-          )}
-        </ul>
+        {this.props.content.map(
+          menuItem => {
+            return (
+              <span key={menuItem.title} className="menu-item">
+                <div className="li-div">
+                  <img className="menu-item-icon" src={menuItem.image} />
+                </div>
+                <div className="menu-item-text">{menuItem.title}</div>
+              </span>
+            );
+          }
+        )}
       </div>
     );
   }

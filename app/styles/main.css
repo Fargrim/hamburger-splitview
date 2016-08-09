@@ -1,3 +1,8 @@
+html, body, #app, .hamburger-menu{
+  height: 100%;
+  width: 100%;
+}
+
 ul {
   list-style: none;
   padding: 0;
@@ -5,16 +10,40 @@ ul {
 }
 
 span{
-  text-align: center;
+  white-space: nowrap;
+}
+.menu-item{
+  display: block;
+}
+.menu-item > * {
+  vertical-align: middle;
+}
+.hamburger-menu {
+  width: 20%;
+  display: inline-block;
 }
 .hamburger-menu .menu_closed{
   padding: 0;
+  width: 5%;
 }
 
-.menu-item-text{
-  display: none;
+.menu-item-text {
+  display: inline;
+}
+
+.menu-sidebar .menu-item-text{
+  position: relative;
+  left: -200px;
+  transition-duration: .5s;
+  -webkit-transition-duration: .5s;
 }
 
 .menu-open .menu-sidebar .menu-item-text{
-  display: inline;
+  left: 1000px;
+  transition-duration: .5s;
+  -webkit-transition-duration: .5s; 
+}
+
+.li-div {
+  display: inline-block;
 }
