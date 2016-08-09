@@ -7,7 +7,7 @@ ul {
 span{
   text-align: center;
 }
-.menu-sidebar .menu_closed{
+.hamburger-menu .menu_closed{
   padding: 0;
 }
 
@@ -15,6 +15,6 @@ span{
   display: none;
 }
 
-.menu-open > li > .menu-item-text{
+.menu-open .menu-sidebar .menu-item-text{
   display: inline;
 }

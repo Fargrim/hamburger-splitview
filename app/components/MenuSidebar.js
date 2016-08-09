@@ -4,7 +4,7 @@ class MenuSidebar extends Component {
   render() {
     return (
       <div className="menu-sidebar">
-        <ul className={this.props.menuOpen ? 'menu-open' : 'menu-closed'}>
+        <ul>
           {this.props.content.map(
             menuItem => {
               return (
@@ -24,7 +24,6 @@ class MenuSidebar extends Component {
 }
 
 MenuSidebar.propTypes = {
-  menuOpen: PropTypes.bool.isRequired,
   content: PropTypes.array.isRequired
 }
 

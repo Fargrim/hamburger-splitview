@@ -1,61 +1,83 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Hamburger from './components/Hamburger';
+import Hamburger from './containers/Hamburger';
 import Rx from 'rxjs';
+import isolate from './utils/isolate';
 
-const menu = {
-  content: [
-    {
-      image: 'app/images/ic_home_black_18dp_2x.png',
-      title: 'Home'
+function makeDOMSource(...selectors) {
+  return {
+    select: (nextSelector) => {
+      return makeDOMSource(...selectors, nextSelector);
     },
-    {
-      image: 'app/images/ic_star_rate_black_18dp_2x.png',
-      title: 'Favorites'
-    },
-    {
-      image: 'app/images/ic_settings_black_18dp_2x.png',
-      title: 'Settings'
-    },
-  ]
-};
+    events: (event) => {
+      return Rx.Observable.fromEvent(document, event).filter((ev) => {
+        console.log(ev.target.matches(selectors.join(' ')), selectors.join(' '), ev.target);
+        return ev.target.matches(selectors.join(' '));
+      });
+    }
+  };
+}
 
-const intent = () => {
-  return Rx.Observable.fromEvent('.hamburger-menu', 'click');
-}
-const model = (click$, props) => {
-  return click$.map(() => ({
-    content: props.content
-  }));
-}
-const view = (state$) => {
-  const vtree$ = state$.map(state => {
-    return (
-    <div className="hamburger-menu">
-      <img src="app/images/ic_menu_black_24dp_2x.png" />
-      {state.content};
-    </div>
-  )});
-  return vtree$;
+function makeDOMDriver(selector) {
+  // DOMSource ... clicks, keyboard strokes, etc.
+  return component$ => {
+    console.log('makeDOMDriver');
+    const rootEle = document.querySelector(selector);
+    component$.subscribe((component) => {
+      console.log('in subscribe');
+      ReactDOM.render(
+        component,
+        rootEle
+      );
+    });
+    
+    return makeDOMSource(selector);
+  }
 }
 
 
-const Main = (props) => {
-  // const proxyClick$ = new Rx.Subject();
-  console.log(props);
-  const click$ = intent();
-  const state$ = model(click$);
-  const vtree$ = view(state$);
-  vtree$.map(vtree => console.log(vtree));
-  // Ditch the MenuSideBar for now.  Render it explicitly here instead.
-  return (
-    <div className="hamburger-menu">
-      <img src="app/images/ic_menu_black_24dp_2x.png" />
-    </div>
-  );
+function main(sources) {
+  const hamburgerProps$ = Rx.Observable.of({
+    content: [
+      {
+        image: 'app/images/ic_home_black_18dp_2x.png',
+        title: 'Home'
+      },
+      {
+        image: 'app/images/ic_star_rate_black_18dp_2x.png',
+        title: 'Favorites'
+      },
+      {
+        image: 'app/images/ic_settings_black_18dp_2x.png',
+        title: 'Settings'
+      },
+    ],
+    open: false
+  })
+
+
+  const burgerSinks = Hamburger({DOM: sources.DOM, props: hamburgerProps$});
+  
+  console.log(burgerSinks);
+  const sinks = {
+    DOM: burgerSinks.DOM
+  }; 
+  return sinks;
 }
 
-ReactDOM.render(
-  Main(menu),
-  document.getElementById('app')
-);
+function run(mainFn, drivers) {
+  const proxySources = {};
+  Object.keys(drivers).forEach(key => {
+    proxySources[key] = drivers[key](new Rx.Subject());
+  });
+  const sinks = mainFn(proxySources);
+  Object.keys(drivers).forEach(key => {
+    drivers[key](sinks[key]);
+  });
+}
+
+const drivers = {
+  DOM: makeDOMDriver('#app')
+}
+
+run(main, drivers)
