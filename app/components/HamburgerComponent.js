@@ -6,9 +6,9 @@ const HamburgerComponent = ({open, content}) => {
     <div className={`hamburger-menu ${open ? 'menu-open' : 'menu-closed'}`}>
       <span className="menu-item root-item">
         <div className="list-div">
-          <img className="hamburger-icon" src="app/images/ic_menu_black_24dp_2x.png"  />
+          <img className="hamburger-icon" src="app/images/ic_menu_black_48dp_2x.png"  />
         </div>
-        <div className="menu-text sliding-pane">Menu</div>
+        <div className="menu-text">Menu</div>
       </span>
       <MenuSidebar content={content}/>
     </div>

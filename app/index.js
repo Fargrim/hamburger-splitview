@@ -40,17 +40,21 @@ function main(sources) {
   const hamburgerProps$ = Rx.Observable.of({
     content: [
       {
-        image: 'app/images/ic_home_black_48dp_1x.png',
+        image: 'app/images/ic_search_black_48dp_2x.png',
+        title: (<input type="text" placeholder="Search"></input>)
+      },
+      {
+        image: 'app/images/ic_home_black_48dp_2x.png',
         title: 'Home'
       },
       {
-        image: 'app/images/ic_star_black_48dp_1x.png',
+        image: 'app/images/ic_star_black_48dp_2x.png',
         title: 'Favorites'
       },
       {
-        image: 'app/images/ic_settings_black_48dp_1x.png',
+        image: 'app/images/ic_settings_black_48dp_2x.png',
         title: 'Settings'
-      },
+      }
     ],
     open: false
   })

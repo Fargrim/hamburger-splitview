@@ -3,7 +3,9 @@ html, body, #app, .hamburger-menu{
   font-size: 18pt;
   font-family: 'Roboto Slab', serif;
 }
-
+img {
+  width: 50%;
+}
 #app {
   position: fixed;
 }
@@ -36,55 +38,52 @@ span{
   display: inline;
 }
 
-.menu-item{
-  background-color: #ffffff;
-  transition: background-color .2;
-}
 .menu-item:hover{
   background-color: #cce6ff;
   transition: background-color .3s;
 }
 
 .hamburger-menu {
-  background-color: #ffffff;
+  background-color: rgba(230, 247, 255, .9);
   border-width: 2px;
   border-style: solid;
   min-width: 50px;
   transition: max-width .5s;
   -webkit-transition: max-width .5s;
+  overflow-x: hidden;
 }
 
-.sliding-pane {
+.menu-text {
   display: inline;
   font-size: 1rem;
-  left: -200px;
   padding: 10px;
-}
-
-.menu-closed .sliding-pane{
-  opacity: 0;
-  position: absolute;
-}
-
-.menu-open .sliding-pane{
-  opacity: 1;
-  left: 15px;
-  animation: openPane .5s;
-  position: static;
+  position: relative;
 }
 
 .list-div {
   display: inline-block;
+  text-align: center;
+  margin: 15px 0px 15px 0px;
 }
 
-@keyframes openPane {
-  0% {opacity: 0;}
-  75% {opacity: 0;}
-  100% {opacity: 1;}
+.menu-closed .list-div {
+  width: 50px;
 }
 
-/*@keyframes closePane {
-  0% {opacity: 1;}
-  25% {opacity: 0;}
-  100% {opacity: 0;}
-}*/
+.menu-open .list-div {
+  width: 50px;
+}
+
+input[type="text"] {
+  padding: 10px;
+  border: none;
+  border-bottom: solid 2px #444444;
+  transition: border 0.3s;
+  background-color: inherit;
+  font-size: .7rem;
+  width: 50%;
+}
+input[type="text"]:focus {
+  border-bottom: solid 2px #000000;
+  outline: none;
+}

@@ -11,7 +11,7 @@ class MenuSidebar extends Component {
                 <div className="list-div">
                   <img className="menu-item-icon" src={menuItem.image} />
                 </div>
-                <div className="menu-text sliding-pane">{menuItem.title}</div>
+                <div className="menu-text">{menuItem.title}</div>
               </span>
             );
           }

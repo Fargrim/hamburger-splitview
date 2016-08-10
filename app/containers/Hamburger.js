@@ -12,8 +12,8 @@ const model = (toggle$, props$) => {
   const shouldToggle$ = initialValue$
     .merge(toggle$.scan(toggle => {
       console.log(toggle);
-      return !toggle}, false));
-  // toggle$.scan(toggle => !toggle, true).merge();
+      return !toggle;
+    }, false));
 
   return Rx.Observable.combineLatest(shouldToggle$, content$, (toggle, content) => {
     console.log(toggle);
@@ -24,9 +24,9 @@ const model = (toggle$, props$) => {
   });
 }
 const view = (state$) => {
-  const vtree$ = state$.map(state => {
+  const vtree$ = state$.map(({open, content}) => {
     return (
-      <HamburgerComponent open={state.open} content={state.content}/>
+      <HamburgerComponent open={open} content={content}/>
     );
   });
   return vtree$;
