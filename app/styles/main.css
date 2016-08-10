@@ -1,49 +1,90 @@
 html, body, #app, .hamburger-menu{
   height: 100%;
-  width: 100%;
+  font-size: 18pt;
+  font-family: 'Roboto Slab', serif;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+#app {
+  position: fixed;
 }
 
 span{
   white-space: nowrap;
 }
+
 .menu-item{
   display: block;
 }
-.menu-item > * {
+
+.menu-item > *{
   vertical-align: middle;
 }
+
 .hamburger-menu {
-  width: 20%;
   display: inline-block;
 }
-.hamburger-menu .menu_closed{
-  padding: 0;
-  width: 5%;
+
+.menu-closed {
+  max-width: 0%;
 }
 
-.menu-item-text {
+.menu-open {
+  max-width: 100%;
+}
+
+.menu-text {
   display: inline;
 }
 
-.menu-sidebar .menu-item-text{
-  position: relative;
+.menu-item{
+  background-color: #ffffff;
+  transition: background-color .2;
+}
+.menu-item:hover{
+  background-color: #cce6ff;
+  transition: background-color .3s;
+}
+
+.hamburger-menu {
+  background-color: #ffffff;
+  border-width: 2px;
+  border-style: solid;
+  min-width: 50px;
+  transition: max-width .5s;
+  -webkit-transition: max-width .5s;
+}
+
+.sliding-pane {
+  display: inline;
+  font-size: 1rem;
   left: -200px;
-  transition-duration: .5s;
-  -webkit-transition-duration: .5s;
+  padding: 10px;
 }
 
-.menu-open .menu-sidebar .menu-item-text{
-  left: 1000px;
-  transition-duration: .5s;
-  -webkit-transition-duration: .5s; 
+.menu-closed .sliding-pane{
+  opacity: 0;
+  position: absolute;
 }
 
-.li-div {
+.menu-open .sliding-pane{
+  opacity: 1;
+  left: 15px;
+  animation: openPane .5s;
+  position: static;
+}
+
+.list-div {
   display: inline-block;
 }
+
+@keyframes openPane {
+  0% {opacity: 0;}
+  75% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+/*@keyframes closePane {
+  0% {opacity: 1;}
+  25% {opacity: 0;}
+  100% {opacity: 0;}
+}*/
