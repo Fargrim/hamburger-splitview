@@ -2,20 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Hamburger from './containers/Hamburger';
 import Rx from 'rxjs';
-import isolate from './utils/isolate';
 
 function makeDOMSource(...selectors) {
   return {
-    select: (nextSelector) => {
-      return makeDOMSource(...selectors, nextSelector);
-    },
-    events: (event) => {
-      return Rx.Observable.fromEvent(document, event).filter((ev) => {
-        console.log(ev.target.matches(selectors.join(' ')), selectors.join(' '), ev.target);
-        return ev.target.matches(selectors.join(' '));
-      });
-    }
-  };
+    select: (nextSelector) => makeDOMSource(...selectors, nextSelector),
+    events: (event) =>Rx.Observable.fromEvent(document, event).filter((ev) => {
+      return ev.target.matches(selectors.join(' '));
+    })
+  }
 }
 
 function makeDOMDriver(selector) {
@@ -37,6 +31,41 @@ function makeDOMDriver(selector) {
 
 
 function main(sources) {
+  // const hamburgerProps$ = sources.DOM.select('.add-button').events('click').map(e =>
+  //   ({
+  //   content: [
+  //     {
+  //       image: 'app/images/ic_search_black_48dp_2x.png',
+  //       title: (<input type="text" placeholder="Search"></input>)
+  //     },
+  //     {
+  //       image: 'app/images/ic_home_black_48dp_2x.png',
+  //       title: 'Home'
+  //     },
+  //     {
+  //       image: 'app/images/ic_star_black_48dp_2x.png',
+  //       title: 'Favorites'
+  //     },
+  //     {
+  //       image: 'app/images/ic_settings_black_48dp_2x.png',
+  //       title: 'Settings'
+  //     }
+  //   ],
+  //   open: false
+  // }))
+  // .startWith({
+  //   content: [
+  //     {
+  //       image: 'app/images/ic_home_black_48dp_2x.png',
+  //       title: 'Home'
+  //     },
+  //     {
+  //       image: 'app/images/ic_star_black_48dp_2x.png',
+  //       title: 'Favorites'
+  //     }
+  //   ],
+  //   open: false
+  // });
   const hamburgerProps$ = Rx.Observable.of({
     content: [
       {
@@ -57,7 +86,7 @@ function main(sources) {
       }
     ],
     open: false
-  })
+  });
 
 
   const burgerSinks = Hamburger({DOM: sources.DOM, props: hamburgerProps$});
