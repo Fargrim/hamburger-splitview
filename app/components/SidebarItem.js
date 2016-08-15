@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react';
 
-
-const MenuSidebar = ({content}) => (
+const SidebarItem = ({content}) => (
   <div className="menu-sidebar icon-pane">
     {content.map(
       menuItem => {
@@ -18,8 +17,8 @@ const MenuSidebar = ({content}) => (
   </div>
 );
 
-MenuSidebar.propTypes = {
+SidebarItem.propTypes = {
   content: PropTypes.array.isRequired
 }
 
-export default MenuSidebar;
+export default SidebarItem;

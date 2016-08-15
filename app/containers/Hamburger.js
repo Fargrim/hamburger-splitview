@@ -3,7 +3,7 @@ import Rx from 'rxjs';
 import HamburgerComponent from '../components/HamburgerComponent';
 
 
-const intent = (DOMSource) => DOMSource.select('.hamburger-icon').events('click');
+const intent = (DOMSource) => DOMSource.select('.burger-row *').events('click');
 const model = (toggle$, props$) => {
   const initialValue$ = props$.map(props => props.open).first();
   const content$ = props$.map(props => props.content);
