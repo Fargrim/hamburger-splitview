@@ -1,6 +1,6 @@
 import React from 'react';
 import Rx from 'rxjs';
-import HamburgerComponent from '../components/HamburgerComponent';
+import SidebarItem from './SidebarItem';
 
 
 const intent = (DOMSource) => DOMSource.select('.burger-row *').events('click');
@@ -19,18 +19,20 @@ const model = (toggle$, props$) => {
     };
   });
 }
-// const view = (state$) => state$.map(({open, content}) => {
-//   return (
-//     <div className="root-content">
-//       <HamburgerComponent open={open} content={content}/>
-//       <button className="add-button">Test</button>
-//     </div>
-//   );}
-// );
 
 const view = (state$) => state$.map(({open, content}) => {
   return (
-    <HamburgerComponent open={open} content={content}/>
+    <div className={`hamburger-menu ${open ? 'menu-open' : 'menu-closed'}`}>
+      <div className="burger-row">
+        <span className="menu-item">
+          <div className="list-div">
+            <img className="hamburger-icon" src="app/images/ic_menu_black_48dp_2x.png"  />
+          </div>
+          <div className="menu-text">Menu</div>
+        </span>
+      </div>
+      <SidebarItem content={content}/>
+    </div>
   );}
 );
 
