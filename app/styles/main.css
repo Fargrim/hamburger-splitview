@@ -1,12 +1,16 @@
-html, body, #app, .hamburger-menu{
+html, body, .app, .main, .hamburger-menu{
   height: 100%;
   font-size: 18pt;
   font-family: 'Roboto Slab', serif;
 }
+
+.main-content {
+  float: right;
+}
 img {
   width: 80%;
 }
-#app {
+.app {
   position: fixed;
 }
 

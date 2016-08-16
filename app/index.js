@@ -1,16 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Hamburger from './containers/Hamburger';
+import Hamburger from './components/Hamburger';
+import App from './components/App';
 import Rx from 'rxjs';
 
 function makeDOMSource(...selectors) {
   return {
     select: (nextSelector) => makeDOMSource(...selectors, nextSelector),
-    events: (event) => Rx.Observable
+    events: (event) => {
+      return Rx.Observable
       .fromEvent(document, event)
       .filter((ev) => {
+        console.log('Event:', ev);
         return ev.target.matches(selectors.join(' '))
-      })
+      })}
   }
 }
 
@@ -18,6 +21,7 @@ function makeDOMDriver(selector) {
   // DOMSource ... clicks, keyboard strokes, etc.
   return component$ => {
     const rootEle = document.querySelector(selector);
+    console.log('makeDOMDriver:', selector, rootEle);
     component$.subscribe((component) => {
       ReactDOM.render(
         component,
@@ -28,7 +32,30 @@ function makeDOMDriver(selector) {
   }
 }
 
-function main(sources) {
+const main = App;
+const hamburgerContent = {
+  content: [
+    {
+      image: 'app/images/ic_search_black_48dp_2x.png',
+      title: (<input type="text" placeholder="Search"></input>)
+    },
+    {
+      image: 'app/images/ic_home_black_48dp_2x.png',
+      title: 'Home'
+    },
+    {
+      image: 'app/images/ic_star_black_48dp_2x.png',
+      title: 'Favorites'
+    },
+    {
+      image: 'app/images/ic_settings_black_48dp_2x.png',
+      title: 'Settings'
+    }
+  ],
+  open: false
+};
+
+function oldMain(sources) {
   /*const hamburgerProps$ = sources.DOM.select('.add-button').events('click').map(e =>
     ({
     content: [
@@ -100,13 +127,15 @@ function run(mainFn, drivers) {
     proxySources[key] = drivers[key](new Rx.Subject());
   });
   const sinks = mainFn(proxySources);
+  console.log('after main');
   Object.keys(drivers).forEach(key => {
     drivers[key](sinks[key]);
+
   });
 }
 
 const drivers = {
-  DOM: makeDOMDriver('#app')
+  DOM: makeDOMDriver('.app')
 }
 
 run(main, drivers)
