@@ -17,6 +17,12 @@ function makeDOMSource(...selectors) {
   }
 }
 
+function selectorMatch(target, selectorsArr) {
+  return target && (target.matches(selectorsArr.join(' ')) 
+    ? true 
+    : selectorMatch(target.parentElement, selectorsArr));
+}
+
 function makeDOMDriver(selector) {
   // DOMSource ... clicks, keyboard strokes, etc.
   return component$ => {

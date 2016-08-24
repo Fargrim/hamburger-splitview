@@ -1,7 +1,7 @@
 import React from 'react';
 import Rx from 'rxjs';
-import SidebarItem from './SidebarItem';
-import SideBarComponent from './SideBarComponent';
+import SidebarComponent from './SidebarComponent';
+import SidebarComponentTest from './SidebarComponentTest';
 
 
 const intent = (DOMSource) => DOMSource.select('.burger-row *').events('click');
@@ -19,7 +19,8 @@ const model = (toggle$, props$) => {
   });
 }
 
-const view = (state$) => state$.map(({open, content}) => {
+const view = (state$) => state$.map(({open, sideItems}) => {
+  console.log('Hamburger view:', sideItems);
   return (
     <div className={`hamburger-menu ${open ? 'menu-open' : 'menu-closed'}`}>
       <div className="burger-row">
@@ -29,24 +30,49 @@ const view = (state$) => state$.map(({open, content}) => {
           </div>
           <div className="menu-text">Menu</div>
         </span>
-        {content}
+        {sideItems}
       </div>
     </div>
   );}
 );
 
 function Hamburger(sources) {
+
   const toggle$ = intent(sources.DOM);
   const state$ = model(toggle$, sources.props);
-  const sideBarComponentSinks = SideBarComponent({DOM:sources.DOM, props: sources.props});
 
-  const vtree$ = view(Rx.Observable.combineLatest(state$, sideBarComponentSinks.DOM,
-    function(state, sideBarComponentVtree) {
+  const sidebarVtreesArray$ = sources.props.pluck('content').map(content => { // observable map
+    return content.map(item => { //array map
+        const itemProps$ = Rx.Observable.of(item);
+        const itemSinks = SidebarComponentTest({DOM: sources.DOM, props: itemProps$});
+        return itemSinks.DOM;
+    });
+  });
+
+  const change$ = Rx.Observable.combineLatest(
+      sidebarVtreesArray$, 
+      state$, 
+      (side, state) => {
       return {
         open: state.open,
-        content: sideBarComponentVtree
+        sideItems: Rx.Observable.combineLatest(...side, (...args) => args)
       }
-    }));
+    }
+  );
+
+
+
+
+  // Observable of:
+  // [sidebar vtree$, sidebar vtree$, ...]
+  // [sidebar vtree$, sidebar vtree$, ...]
+  // [sidebar vtree$, sidebar vtree$, ...]
+  // [sidebar vtree$, sidebar vtree$, ...]
+  // [sidebar vtree$, sidebar vtree$, ...]
+
+  // const sidebarComponentSinks = SidebarComponent({DOM:sources.DOM, props: sources.props});
+
+  const vtree$ = view(change$);  // I need to combineLatest change$ with state$
 
   return {
     DOM: vtree$

@@ -2,11 +2,11 @@ import Rx from 'rxjs';
 import React from 'react';
 
 const intent = () => {};
-// const model = (props) => {
-//   console.log('SideBarComponent:', props);
-//   return props.;
-// };
+const model = (props) => {
+  return props.map(p => p.content);
+};
 const view = (state$) => {
+  console.log(state$);
   return state$.map(state => (
     <div className="menu-sidebar icon-pane">
     {state.map(
@@ -24,15 +24,15 @@ const view = (state$) => {
   </div>))
 };
 
-function SideBarComponent(sources) {
+function SidebarComponent(sources) {
 
-  // const state$ = model(sources.props);
-  const vtree$ = view(sources.props.map(p => p.content));
-
+  const state$ = model(sources.props);
+  const vtree$ = view(state$);
+  console.log(vtree$);
   return {
     DOM: vtree$
   }
 }
 
 
-export default SideBarComponent
+export default SidebarComponent
